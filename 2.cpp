@@ -6,7 +6,7 @@ short w[1024*1024];
 long p=0;
 int SynthCallback(short *wav, int numsamples, espeak_EVENT *events)
 {
-	memcpy(&w[p],wav,numsamples*2);
+    memcpy(&w[p],wav,numsamples*2);
     p+=numsamples;
     return 0;
 }
@@ -19,6 +19,6 @@ int main(int args,char *argv[])
     if(espeak_Synth("[[ja]]",4,0,POS_WORD,0,espeakPHONEMES,0,0)!=EE_OK)cout<<"e3";
     long wr=0;
     while(wr<p)
-    	wr+=fwrite(&w[wr],2,p-wr,stdout);
+        wr+=fwrite(&w[wr],2,p-wr,stdout);
     return 0;
 }
