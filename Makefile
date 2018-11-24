@@ -1,2 +1,2 @@
 all:
-	g++ 2.cpp -I../espeak-ng/src/include ../espeak-ng/src/.libs/libespeak-ng.a -lsonic -lpcaudio -lpthread
+	g++ 2.cpp -I../espeak-ng/src/include '-Wl,-rpath,$$ORIGIN' ../espeak-ng/src/.libs/libespeak-ng.so -lsonic -lpcaudio -lpthread

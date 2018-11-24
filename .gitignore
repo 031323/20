@@ -1,2 +1,5 @@
 *.o
 *.out
+*.so.*
+*.so
+compile_commands.json
