@@ -12,31 +12,36 @@ def x20(n,m,t):
     global p,lg,r,w,M,s
     x1=subprocess.run(["../espeak-ng/src/espeak-ng","-p"+str(p[n]),"--path=../espeak-ng","-z","-vsa","-g0","--stdout","[["+t+"]]"], stdout=subprocess.PIPE)
     f=x1.stdout[44:]
-    f=f.lstrip(b'\x00')
+    #f=f.lstrip(b'\x00')
     if(m==0):
         s+=len(f)
         w+=f
     else:
-        w+=bytes(M*(int(lg*r)+int(lg*r)%2)-s)
-        s=len(f)
+        if(s<M*(int(lg*r)+int(lg*r)%2)):
+            w+=bytes(M*(int(lg*r)+int(lg*r)%2)-s)
+            s=M*(int(lg*r)+int(lg*r)%2)
+        s+=len(f)
         w+=f
-        M=m
-    if(s>M*(int(lg*r)+int(lg*r)%2)):print(t+"   :  "+str(s)+">"+str(M*(int(lg*r)+int(lg*r)%2)))
+        M+=m
+    #print("M:"+str(M)+"t:"+str(s/r))
+    if(s>M*(int(lg*r)+int(lg*r)%2)+lg*r/2.0):print(t+"   :  "+str(s)+">"+str(M*(int(lg*r)+int(lg*r)%2)))
 
 def ag():
     global lg
-    lg=0.48
+    lg=0.4
     x20(0,2,"aagnnn"); x20(2,1,"nII"); x20(3,2,"mI"); x20(0,0,"I:I:"); 
     x20(1,2,"l.eeeeeee"); x20(0,1,"puu"); x20(2,2,"Roooooo");
-    x20(3,1,"hI"); x20(0,0,"I"); x20(1,2,"taaV~"); x20(0,2,"jaaJ");
+    x20(3,1,"hI"); x20(0,0,"I"); x20(1,2,"taaV~_"); x20(0,2,"jaaJ");
     x20(2,2,"n^aass"); x20(3,1,"ja"); x20(0,0,"a"); x20(1,2,"deeeeee");
     x20(1,1,"vaa"); x20(0,2,"mmRRt"); x20(2,1,"vII"); x20(3,2,"Ja");
     x20(0,0,"am"); x20(1,3,""); x20(2,2,"hooooooo"); x20(3,2,"ta");
-    x20(0,0,"a:a:a"); x20(1,2,"RaaV~"); x20(1,2,"Raat"); x20(0,1,"naa");
+    x20(0,0,"a:a:a"); x20(1,2,"RaaV~______"); x20(1,2,"Raat__"); x20(0,1,"naa");
     x20(2,2,"dha:a:"); x20(3,1,"ta"); x20(0,0,"a"); x20(1,2,"maam")
 
 def om():
-    x20(1,4,"oooooouuummmm"); x20(1,2,"bhuuuuuR"); x20(1,1,"bhuu"); x20(1,2,"vaasss"); x20(1,2,"svaaHH");
+    global lg
+    lg=0.44
+    x20(1,4,"oooooouuummmm"); x20(1,2,"bhuuuuuR"); x20(1,1,"bhuu"); x20(1,2,"vaasss"); x20(1,2,"vaaHH");
     x20(1,2,"");
     x20(2,2,"taat");
     x20(3,1,"sa"); x20(0,0,"a");
@@ -56,13 +61,13 @@ def om():
     x20(1,1,"pRaa");
     x20(0,2,"coooooo");
     x20(2,1,"daa");
-    x20(3,2,"ja"); x20(0,0,"a:a:t");
+    x20(3,2,"ja"); x20(0,0,"a:a:at");
     
     
 def tva():
     global lg
-    lg=5.1
-    x20(0,1,"tvaa"); x20(1,2,"dI:I:I:"); x20(2,1,"jaa"); x20(3,2,"pa:a:a:"); x20(1,1,"daa"); x20(1,2,"paaN"); x20(1,1,"kaa"); x20(1,2,"JaaV~"); x20(1,1,"naa"); x20(1,2,"ma:a:a:"); x20(1,1,"mII"); x20(1,2,"de:e:e:e:"); x20(1,1,"vII"); x20(1,2,"naaR"); x20(1,1,"maa"); x20(1,2,"de:e:e:e:");
+    lg=0.39
+    x20(1,1,"tvaa"); x20(1,2,"dI:I:I:"); x20(1,1,"jaa"); x20(1,2,"pa:a:"); x20(1,1,"daa"); x20(1,2,"paaN"); x20(1,1,"kaa"); x20(1,2,"JaaV~"); x20(1,1,"naa"); x20(1,2,"ma:a:a"); x20(1,1,"mII"); x20(1,2,"de:e:e:e:"); x20(1,1,"vII"); x20(1,2,"naaR"); x20(1,1,"maa"); x20(1,2,"de:e:e:e:");
     
-om()
+tva()
 subprocess.run(["aplay","-fS16_LE","-r"+str(r)],input=w);

@@ -1,11 +1,9 @@
 #include<cstring>
 #include<espeak-ng/speak_lib.h>
 #include<iostream>
+#include<queue>
 using namespace std;
-void wai(int i)
-{
-}
-//if(espeak_Synth("[[ja]]",4,0,POS_WORD,0,espeakPHONEMES,0,0)!=EE_OK)x1(4);
+void wai(){}
 
 bool mool=false;
 
@@ -13,26 +11,29 @@ int ko(short* sil, int il, espeak_EVENT* til)
 {
 
 }
-typedef enum
+int on=0;
+long ing=0;
+class kaas
 {
-	a=1,aa=2,i=3,ii=4,u=5,uu=6,r=7,rr=8,l=9,ll=10,e=12,o=14,E=16,O=18,
-	H=19,M=20,
+};
+#define INE 10
 
-} manam;
-void vo(char* sar, int ir, int(*)(short*,int,int) )
+void jo()
+{	if(!mool)
+		if(espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS,0,"../espeak-ng/",0)<0)wai();
+	on=0;
+	ing=0;
+}	
+void vo(char *par,int ant,short* wor2,int &want,int &cant)
 {
-	if(!mool)
-		if(espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS,0,"../espeak-ng/",0)<0)wai(1);
-	if(espeak_SetVoiceByName("sa")!=EE_OK)wai(2);
-	if(espeak_SetParameter(espeakWORDGAP,0,0)!=EE_OK)wai(3);
+	if(espeak_SetVoiceByName("sa")!=EE_OK)wai();
+	if(espeak_SetParameter(espeakWORDGAP,0,0)!=EE_OK)wai();
 	espeak_SetSynthCallback(&ko);
+	if(espeak_Synth("[[a]]",4,0,POS_WORD,0,espeakPHONEMES,0,0)!=EE_OK)wai();
+
 }
 
-int im(short *art, int irt, int ist)
-{
-	return 0;
-}
 int main(int args,char *argv[])
 {
-	vo(NULL,0,&im);
+
 }
