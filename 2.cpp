@@ -236,50 +236,51 @@ void vo(const char *par,int ant,short* wor2,int &want,int &cant)
 		bool crool=trin[santu[0]].find("॑")!=std::string::npos;
 		for(int i=0;i<kin;i++)
 		{
-			if(trin[i]=="अ")
+			if(trin[i].find("अ")!=std::string::npos)
 			{
 				if(!crool)crim[crint]+="aa";
 				else {crim[crint]+="a";crint++;crim[crint]+="a";}
 			}
-			else if(trin[i]=="आ")
+			else if(trin[i].find("आ")!=std::string::npos)
 			{
 				mon=2;
 				if(!crool)crim[crint]+="a:a:";
 				else {crim[crint]+="a";crint++;crim[crint]+="aa:";}
 			}
-			else if(trin[i]=="इ")
+			else if(trin[i].find("इ")!=std::string::npos)
 			{
 				if(!crool)crim[crint]+="II";
 				else {crim[crint]+="I";crint++;crim[crint]+="I";}
 			}
-			else if(trin[i]=="ई")
+			else if(trin[i].find("ई")!=std::string::npos)
 			{
 				mon=2;
 				if(!crool)crim[crint]+="I:I:";
 				else {crim[crint]+="I";crint++;crim[crint]+="II:";}
 			}
-			else if(trin[i]=="उ")
+			else if(trin[i].find("उ")!=std::string::npos)
 			{
 				if(!crool)crim[crint]+="uu";
 				else {crim[crint]+="u";crint++;crim[crint]+="u";}
 			}
-			else if(trin[i]=="ऊ")
+			else if(trin[i].find("ऊ")!=std::string::npos)
 			{
 				mon=2;
 				if(!crool)crim[crint]+="uuuu";
 				else {crim[crint]+="u";crint++;crim[crint]+="uuu";}
 			}
-			else if(trin[i]=="ऋ")
+			else if(trin[i].find("ऋ")!=std::string::npos)
 			{
 				if(!crool)crim[crint]+="RR";
-				else {crim[crint]+="R";crint++;crim[crint]+="RR";}
+				else {crim[crint]+="R";crint++;crim[crint]+="R";}
 			}
-			else if(trin[i]=="ऊ")
+			else if(trin[i].find("ॠ")!=std::string::npos)
 			{
 				mon=2;
-				if(!crool)crim[crint]+="uuuu";
-				else {crim[crint]+="u";crint++;crim[crint]+="uuu";}
+				if(!crool)crim[crint]+="RRRR";
+				else {crim[crint]+="R";crint++;crim[crint]+="RRR";}
 			}
+			
 		}
 		
 		
