@@ -69,5 +69,5 @@ def tva():
     lg=0.39
     x20(1,1,"tvaa"); x20(1,2,"dI:I:I:"); x20(1,1,"jaa"); x20(1,2,"pa:a:"); x20(1,1,"daa"); x20(1,2,"paaN"); x20(1,1,"kaa"); x20(1,2,"JaaV~"); x20(1,1,"naa"); x20(1,2,"ma:a:a"); x20(1,1,"mII"); x20(1,2,"de:e:e:e:"); x20(1,1,"vII"); x20(1,2,"naaR"); x20(1,1,"maa"); x20(1,2,"de:e:e:e:");
     
-tva()
+ag()
 subprocess.run(["aplay","-fS16_LE","-r"+str(r)],input=w);
