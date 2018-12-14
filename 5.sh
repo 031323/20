@@ -1,1 +1,1 @@
-./a.out |aplay -q -fS16_LE -r22050
+./a.out $1|aplay -q -fS16_LE -r22050

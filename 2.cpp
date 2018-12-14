@@ -9,8 +9,9 @@ bool bol=true;
 
 bool mool=false;
 
+bool tool=false;
 
- void (*lo)(short*,int);
+void (*lo)(short*,int);
 
 long ing=0;
 int ko(short* sil, int il, espeak_EVENT* til)
@@ -535,20 +536,26 @@ void vo(const char *par,int ant,int &cant)
 			if(espeak_Synth(crim[i].c_str(),0,0,POS_WORD,0,espeakPHONEMES,0,0)!=EE_OK)wai();
 			if(bol)cout<<crim[i]<<endl;
 		}
-		//if(bol)cout<<"K: "<<kong<<endl;
 		on+=mon;
 		long wong=vot*wint;
 		wong+=wong%2;
-		if(ing<on*wong)
+		if(!tool&&sant==0)
+		{
+			short* mort=new short(mon*wong);
+			memset(mort,0,sizeof(short)*(mon*wong));
+			ko(mort,mon*wong,NULL);
+			delete(mort);
+		}
+		if(tool&&ing<on*wong)
 		{
 			short* mort=new short(on*wong-ing);
 			memset(mort,0,sizeof(short)*(on*wong-ing));
 			ko(mort,on*wong-ing,NULL);
 			delete(mort);
 		}
-		else if(bol)cout<<">"<<(float)(ing-on*wong)/(float)wong*100.0<<endl;
+		else if(bol&&tool)cout<<">"<<(float)(ing-on*wong)/(float)wong*100.0<<endl;
+		if(bol&&tool)cout<<"tool"<<endl;
 		if(bol)cout<<"hua"<<endl;
-		//if(bol)cout<<"W: "<<want<<endl;
 	}
 }
 void so(short *sil,int il)
@@ -562,6 +569,7 @@ int main(int args,char *argv[])
 	string ring="";
 	if(args>1)ring=argv[1];
 	if(ring.find("v")==string::npos)bol=false;
+	if(ring.find("t")!=string::npos)tool=true;
 	string sing="",king="";
 	jo();
 	while(sing!="0")
