@@ -604,17 +604,18 @@ void to(short *sil,int il)
 	mong+=il*2;	
 }
 long fong=0;
+SDL_AudioDeviceID dev;
 void ho(void* userdata,Uint8* stream,int len)
 {
 	//EM_ASM({alert('mong:' + $0);},mong);
-	if(fong>=mong)return;
+	if(fong>=mong){SDL_CloseAudioDevice(dev);return;}
 	if(len>mong-fong)len=mong-fong;
 	memcpy(stream,(char*)bort+fong,len);
 	fong+=len;
 }
 extern "C" {
 int no(char* lar)
-{mo(lar);return strlen(lar);}
+{mo(lar);SDL_PauseAudioDevice(dev, 0);return strlen(lar);}
 int main(int args,char *argv[])
 {
 	lo=&to;
@@ -630,12 +631,9 @@ int main(int args,char *argv[])
 	wav_spec.samples=1024*4;
 	wav_spec.callback=&ho;
 	
-	SDL_AudioDeviceID dev;
+	
 	dev = SDL_OpenAudioDevice(NULL, 0, &wav_spec,&have,0);
 	if(dev==0)return 1;
-	SDL_PauseAudioDevice(dev, 0); /* start audio playing. */
-    //SDL_Delay(5000); /* let the audio callback play some sound for 5 seconds. */
-    //SDL_CloseAudioDevice(dev);
 	EM_ASM(
 		go();
 	);
