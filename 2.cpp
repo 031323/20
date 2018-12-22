@@ -600,6 +600,7 @@ long mong=0;
 void to(short *sil,int il)
 {
 	if(!il)return;
+	if(mong/2+il>22050*60)return;
 	memcpy(&bort[mong/2],sil,il*2);
 	mong+=il*2;	
 }
