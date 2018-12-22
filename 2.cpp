@@ -2,10 +2,15 @@
 #include<iostream>
 #include<string>
 #include<cstring>
+#ifdef EMSCRIPTEN
+#include<emscripten.h>
+#include<SDL2/SDL.h>
+#include<cstdlib>
+#endif
 using namespace std;
 void wai(){*((char*)12)=0;}
 
-bool bol=true;
+bool bol=false;
 
 bool mool=false;
 
@@ -33,7 +38,7 @@ int swint=-1;
 void jo()
 {	if(!mool)
 	{
-		if(espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS,0,"../espeak-ng/",0)<0)wai();
+		if(espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS,0,"./",0)<0)wai();
 		if(espeak_SetVoiceByName("sa")!=EE_OK)wai();
 		if(espeak_SetParameter(espeakWORDGAP,0,0)!=EE_OK)wai();
 		espeak_SetSynthCallback(&ko);
@@ -521,6 +526,7 @@ void vo(const char *par,int ant,int &cant)
 				if(trin[santu[0]].find("॒")!=string::npos)
 				{
 					fint=0;
+					if(sant>1){if(trin[santu[1]].find("॒")!=string::npos)fint=1;}
 					swint=2;
 				}
 				else if(sant>1)
@@ -562,22 +568,77 @@ void so(short *sil,int il)
 {
 	if(!bol)fwrite(sil,sizeof(short),il,stdout);
 }
+
+int cant=0;
+string king="";
+void mo(string sing)
+{
+	king+=sing;
+	vo((king).c_str(),king.length(),cant);
+	if(bol)cout<<"cant"<<cant<<endl;
+	king=king.substr(king.length()-cant,cant);
+}
+#ifndef EMSCRIPTEN
 int main(int args,char *argv[])
 {
-	int cant=0;
 	lo=&so;
 	string ring="";
 	if(args>1)ring=argv[1];
-	if(ring.find("v")==string::npos)bol=false;
+	if(ring.find("v")!=string::npos)bol=true;
 	if(ring.find("t")!=string::npos)tool=true;
-	string sing="",king="";
+	string sing="";
 	jo();
 	while(sing!="0")
 	{
 		cin>>sing;
-		king+=sing;
-		vo((king).c_str(),king.length(),cant);
-		if(bol)cout<<"cant"<<cant<<endl;
-		king=king.substr(king.length()-cant,cant);
+		mo(sing);
 	}
 }
+#else
+short bort[22050*60];
+long mong=0;
+void to(short *sil,int il)
+{
+	if(!il)return;
+	memcpy(&bort[mong/2],sil,il*2);
+	mong+=il*2;	
+}
+long fong=0;
+void ho(void* userdata,Uint8* stream,int len)
+{
+	//EM_ASM({alert('mong:' + $0);},mong);
+	if(fong>=mong)return;
+	if(len>mong-fong)len=mong-fong;
+	memcpy(stream,(char*)bort+fong,len);
+	fong+=len;
+}
+extern "C" {
+int no(char* lar)
+{mo(lar);return strlen(lar);}
+int main(int args,char *argv[])
+{
+	lo=&to;
+	jo();
+	
+	
+	if(SDL_Init(SDL_INIT_AUDIO)<0)return 1;
+	SDL_AudioSpec wav_spec,have;
+	SDL_zero(wav_spec);
+	wav_spec.freq=22050;
+	wav_spec.format=AUDIO_S16LSB;
+	wav_spec.channels=1;
+	wav_spec.samples=1024*4;
+	wav_spec.callback=&ho;
+	
+	SDL_AudioDeviceID dev;
+	dev = SDL_OpenAudioDevice(NULL, 0, &wav_spec,&have,0);
+	if(dev==0)return 1;
+	SDL_PauseAudioDevice(dev, 0); /* start audio playing. */
+    //SDL_Delay(5000); /* let the audio callback play some sound for 5 seconds. */
+    //SDL_CloseAudioDevice(dev);
+	EM_ASM(
+		go();
+	);
+}
+}
+#endif
