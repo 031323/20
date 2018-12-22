@@ -6,14 +6,18 @@
 </title>
 </head>
 <body>
-142434
+<p id="ut"></p>
 <script>
+var no;
+var gon=false;
 function go()
 {
+	gon=true;
 	document.title='142434';
-	var no=Module.cwrap('no','number',['string']);
-	var lo=no(decodeURI(location.search));
-}	
+	no=Module.cwrap('no','number',['string']);
+	document.getElementById("ut").innerHTML=decodeURI(location.search).substring(1);
+	no(document.getElementById("ut").innerHTML);
+}
 </script>
 <script src="2.js"></script>
 <script>

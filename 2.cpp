@@ -8,7 +8,11 @@
 #include<cstdlib>
 #endif
 using namespace std;
-void wai(){*((char*)12)=0;}
+void wai(int aai=0){
+if(aai==EE_BUFFER_FULL)EM_ASM({alert('wai buffer');});
+if(aai==EE_INTERNAL_ERROR)EM_ASM({alert('wai internal');});
+*((char*)12)=0;
+}
 
 bool bol=false;
 
@@ -538,8 +542,15 @@ void vo(const char *par,int ant,int &cant)
 			}
 			crim[i]="[["+crim[i]+"]]";
 			if(bol)cout<<"P: "<<fint<<" ";
-			if(espeak_SetParameter(espeakPITCH,pint[fint],0)!=EE_OK)wai();
-			if(espeak_Synth(crim[i].c_str(),0,0,POS_WORD,0,espeakPHONEMES,0,0)!=EE_OK)wai();
+			if(espeak_SetParameter(espeakPITCH,pint[fint],0)!=EE_OK)wai(12);
+			{
+				int eit=EE_BUFFER_FULL;
+				while(eit!=EE_OK)
+				{
+					eit=espeak_Synth(crim[i].c_str(),0,0,POS_WORD,0,espeakPHONEMES,0,0);
+					if(eit!=EE_OK)wai(eit);
+				}
+			}
 			if(bol)cout<<crim[i]<<endl;
 		}
 		on+=mon;
@@ -574,6 +585,7 @@ string king="";
 void mo(string sing)
 {
 	king+=sing;
+	//EM_ASM({alert('len:'+$0);},king.length());
 	vo((king).c_str(),king.length(),cant);
 	if(bol)cout<<"cant"<<cant<<endl;
 	king=king.substr(king.length()-cant,cant);
@@ -599,6 +611,7 @@ short bort[22050*60];
 long mong=0;
 void to(short *sil,int il)
 {
+	//EM_ASM({alert('mong:' + $0 + ' il:'+$1);},mong,il);
 	if(!il)return;
 	if(mong/2+il>22050*60)return;
 	memcpy(&bort[mong/2],sil,il*2);
@@ -608,15 +621,18 @@ long fong=0;
 SDL_AudioDeviceID dev;
 void ho(void* userdata,Uint8* stream,int len)
 {
-	//EM_ASM({alert('mong:' + $0);},mong);
-	if(fong>=mong){SDL_CloseAudioDevice(dev);return;}
+	//EM_ASM({alert('fong:' + $0+' mong:'+$1);},fong,mong);
+	memset(stream,0,len);
+	if(fong>=mong){
+	SDL_PauseAudioDevice(dev,1);
+	return;}
 	if(len>mong-fong)len=mong-fong;
 	memcpy(stream,(char*)bort+fong,len);
 	fong+=len;
 }
 extern "C" {
 int no(char* lar)
-{mo(lar);SDL_PauseAudioDevice(dev, 0);return strlen(lar);}
+{mong=0;fong=0;mo(lar);return strlen(lar);}
 int main(int args,char *argv[])
 {
 	lo=&to;
@@ -634,6 +650,7 @@ int main(int args,char *argv[])
 	
 	
 	dev = SDL_OpenAudioDevice(NULL, 0, &wav_spec,&have,0);
+	SDL_PauseAudioDevice(dev, 0);
 	if(dev==0)return 1;
 	EM_ASM(
 		go();
