@@ -2,8 +2,5 @@
 *.out
 *.so.*
 *.so
-2.js
-2.wasm
-2.data
 espeak-ng-data
 compile_commands.json
