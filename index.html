@@ -6,7 +6,7 @@
 </title>
 </head>
 <body>
-<p id="ut"></p>
+<textarea id="ut"></textarea>
 <script>
 var no;
 var gon=false;
@@ -15,13 +15,16 @@ function go()
 	gon=true;
 	document.title='142434';
 	no=Module.cwrap('no','null',['string']);
-	document.getElementById("ut").innerHTML=decodeURI(location.search).substring(1);
-	no(document.getElementById("ut").innerHTML);
+	document.getElementById("ut").value=decodeURI(location.search).substring(1);
+	no(document.getElementById("ut").value);
+}
+function on()
+{
+	if(gon)
+		no(document.getElementById("ut").value);
 }
 </script>
 <script src="2.js"></script>
-<script>
-	
-</script>
+<button onclick=on() id="on">?</button>
 </body>
 </html>
