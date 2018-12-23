@@ -2,30 +2,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-142434
 </title>
 </head>
 <body>
 <p id="ra">प्राप्यते।</p>
-<textarea id="ut" disabled="true"></textarea>
+<textarea id="ut" style="display:none;"></textarea>
 <script>
 var no;
 var gon=false;
 function ho()
 {
-	document.getElementById("ra").innerHTML="गण्यते।";
-	document.getElementById("ut").disabled=true;
-	document.getElementById("on").disabled=true;
 	no(document.getElementById("ut").value);
-	document.getElementById("ut").disabled=false;
-	document.getElementById("on").disabled=false;
-	document.getElementById("ra").innerHTML="श्रूयताम्।";
 }
 function go()
 {
 	gon=true;
 	no=Module.cwrap('no','null',['string']);
 	document.getElementById("ut").value=decodeURI(location.search).substring(1);
+	document.getElementById("ut").style="";
+	document.getElementById("on").style="";
+	document.getElementById("ra").innerHTML="";
 	ho();
 }
 function on()
@@ -34,7 +30,7 @@ function on()
 		ho();
 }
 </script>
-<script src="2.js"></script>
-<button onclick=on() id="on" disabled="true">?</button>
+<script src="2.js"></script><p>
+<button onclick=on() id="on" style="display:none;">?</button>
 </body>
 </html>
