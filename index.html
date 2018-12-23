@@ -2,29 +2,39 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-...
+142434
 </title>
 </head>
 <body>
-<textarea id="ut"></textarea>
+<p id="ra">प्राप्यते।</p>
+<textarea id="ut" disabled="true"></textarea>
 <script>
 var no;
 var gon=false;
+function ho()
+{
+	document.getElementById("ra").innerHTML="गण्यते।";
+	document.getElementById("ut").disabled=true;
+	document.getElementById("on").disabled=true;
+	no(document.getElementById("ut").value);
+	document.getElementById("ut").disabled=false;
+	document.getElementById("on").disabled=false;
+	document.getElementById("ra").innerHTML="श्रूयताम्।";
+}
 function go()
 {
 	gon=true;
-	document.title='142434';
 	no=Module.cwrap('no','null',['string']);
 	document.getElementById("ut").value=decodeURI(location.search).substring(1);
-	no(document.getElementById("ut").value);
+	ho();
 }
 function on()
 {
 	if(gon)
-		no(document.getElementById("ut").value);
+		ho();
 }
 </script>
 <script src="2.js"></script>
-<button onclick=on() id="on">?</button>
+<button onclick=on() id="on" disabled="true">?</button>
 </body>
 </html>
