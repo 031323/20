@@ -9,9 +9,10 @@
 #endif
 using namespace std;
 void wai(int aai=0){
-if(aai==EE_BUFFER_FULL)EM_ASM({alert('wai buffer');});
-if(aai==EE_INTERNAL_ERROR)EM_ASM({alert('wai internal');});
-*((char*)12)=0;
+//if(aai==EE_BUFFER_FULL)EM_ASM({alert('wai buffer:'+$0);},aai);
+//else if(aai==EE_INTERNAL_ERROR)EM_ASM({alert('wai internal:'+$0);},aai);
+//else EM_ASM({alert('wai:'+$0);},aai);
+//*((char*)12)=0;
 }
 
 bool bol=false;
@@ -543,14 +544,7 @@ void vo(const char *par,int ant,int &cant)
 			crim[i]="[["+crim[i]+"]]";
 			if(bol)cout<<"P: "<<fint<<" ";
 			if(espeak_SetParameter(espeakPITCH,pint[fint],0)!=EE_OK)wai(12);
-			{
-				int eit=EE_BUFFER_FULL;
-				while(eit!=EE_OK)
-				{
-					eit=espeak_Synth(crim[i].c_str(),0,0,POS_WORD,0,espeakPHONEMES,0,0);
-					if(eit!=EE_OK)wai(eit);
-				}
-			}
+			if(espeak_Synth(crim[i].c_str(),0,0,POS_WORD,0,espeakPHONEMES,0,0)!=EE_OK)wai();
 			if(bol)cout<<crim[i]<<endl;
 		}
 		on+=mon;
@@ -558,10 +552,11 @@ void vo(const char *par,int ant,int &cant)
 		wong+=wong%2;
 		if(!tool&&sant==0)
 		{
-			short* mort=new short(mon*wong);
-			memset(mort,0,sizeof(short)*(mon*wong));
+			short* mort=(short*)malloc(2*mon*wong);
+			//EM_ASM({alert('mort'+$0);},mort);
+			memset(mort,0,2*(mon*wong));
 			ko(mort,mon*wong,NULL);
-			delete(mort);
+			free(mort);
 		}
 		if(tool&&ing<on*wong)
 		{
@@ -607,32 +602,17 @@ int main(int args,char *argv[])
 	}
 }
 #else
-short bort[22050*60];
-long mong=0;
+
+
+SDL_AudioDeviceID dev;
 void to(short *sil,int il)
 {
 	//EM_ASM({alert('mong:' + $0 + ' il:'+$1);},mong,il);
-	if(!il)return;
-	if(mong/2+il>22050*60)return;
-	memcpy(&bort[mong/2],sil,il*2);
-	mong+=il*2;	
-}
-long fong=0;
-SDL_AudioDeviceID dev;
-void ho(void* userdata,Uint8* stream,int len)
-{
-	//EM_ASM({alert('fong:' + $0+' mong:'+$1);},fong,mong);
-	memset(stream,0,len);
-	if(fong>=mong){
-	SDL_PauseAudioDevice(dev,1);
-	return;}
-	if(len>mong-fong)len=mong-fong;
-	memcpy(stream,(char*)bort+fong,len);
-	fong+=len;
+	SDL_QueueAudio(dev,sil,il*2);
 }
 extern "C" {
-int no(char* lar)
-{mong=0;fong=0;mo(lar);return strlen(lar);}
+void no(char* lar)
+{mo(lar);}
 int main(int args,char *argv[])
 {
 	lo=&to;
@@ -646,7 +626,7 @@ int main(int args,char *argv[])
 	wav_spec.format=AUDIO_S16LSB;
 	wav_spec.channels=1;
 	wav_spec.samples=1024*4;
-	wav_spec.callback=&ho;
+	wav_spec.callback=NULL;
 	
 	
 	dev = SDL_OpenAudioDevice(NULL, 0, &wav_spec,&have,0);

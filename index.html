@@ -14,7 +14,7 @@ function go()
 {
 	gon=true;
 	document.title='142434';
-	no=Module.cwrap('no','number',['string']);
+	no=Module.cwrap('no','null',['string']);
 	document.getElementById("ut").innerHTML=decodeURI(location.search).substring(1);
 	no(document.getElementById("ut").innerHTML);
 }
