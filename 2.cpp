@@ -613,8 +613,10 @@ void to(short *sil,int il)
 	mong+=il;
 }
 extern "C" {
+int so()
+{return SDL_GetQueuedAudioSize(dev);}
 void no(char* lar)
-{mong=0;mo(lar);SDL_QueueAudio(dev,tort,mong*2);}
+{SDL_ClearQueuedAudio(dev);mong=0;mo(lar);SDL_QueueAudio(dev,tort,mong*2);}
 int main(int args,char *argv[])
 {
 	lo=&to;

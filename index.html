@@ -6,28 +6,84 @@
 </head>
 <body>
 <p id="ra">...</p>
+<div style="width:100%" id="civ">
+<button onclick=ho() id="on" style="display:none;">?</button>
+<button onclick=ro() id="kon" style="display:none;">X</button><p>
+</div>
 <textarea id="ut" style="display:none;"></textarea>
 <script>
-var no;
+var no,so;
 var gon=false;
+var hool=false;
+var jint;
+var ting=[];
+function wo()
+{
+	document.getElementById('ut').style.height = window.innerHeight - document.getElementById("civ").offsetTop - document.getElementById("civ").offsetHeight; 
+}
+function ro()
+{
+	hool=false;
+	document.getElementById("kon").style="display:none;";
+}
+function bho()
+{
+	if(hool)
+	{
+		if(so()==0)
+		{
+			no(ting[jint]);
+			jint++;
+		}
+		if(jint==ting.length)
+		{
+			hool=false;
+			document.getElementById("kon").style="display:none;";
+		}
+		else window.requestAnimationFrame(bho);
+	}
+}
 function ho()
 {
-	location.hash=encodeURI(document.getElementById("ut").value);
-	no(document.getElementById("ut").value);
+	window.location.hash=encodeURI(document.getElementById("ut").value);
+	SDL2.audioContext.resume();
+	hool=true;
+	jint=-1;
+	ting=[];
+	var i,sing="";
+	for(i=0;i<document.getElementById("ut").value.length;i++)
+	{
+		var ning=document.getElementById("ut").value[i];
+		sing+=ning;
+		if(ning==="।"||ning==="॥")
+		{
+			if(document.getElementById("ut").selectionStart<=i&&jint==-1)jint=ting.length;
+			ting.push(sing);
+			sing="";
+		}
+	}
+	if(jint==-1)jint=0;
+	document.getElementById("kon").style="";
+	window.requestAnimationFrame(bho);
 }
 function go()
 {
 	gon=true;
 	no=Module.cwrap('no','null',['string']);
-	document.getElementById("ut").value=decodeURI(location.hash).substring(1);
-	document.getElementById("ut").style="";
+	so=Module.cwrap('so','number');
+	document.getElementById("ut").value=decodeURI(window.location.hash).substring(1);
+	document.getElementById("ut").style="width:100%;";
 	document.getElementById("on").style="";
+	
+	wo();
+	
 	document.getElementById("ra").innerHTML="";
-	SDL2.audioContext.resume();
+	window.addEventListener('popstate',function(){
+		document.getElementById("ut").value=decodeURI(window.location.hash).substring(1);});
+	document.getElementById("ut").selectionStart=0;
 }
 
 </script>
-<script src="2.js"></script><p>
-<button onclick=ho() id="on" style="display:none;">?</button>
+<script src="2.js"></script>
 </body>
 </html>
