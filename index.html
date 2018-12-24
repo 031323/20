@@ -12,25 +12,22 @@ var no;
 var gon=false;
 function ho()
 {
+	location.hash=encodeURI(document.getElementById("ut").value);
 	no(document.getElementById("ut").value);
 }
 function go()
 {
 	gon=true;
 	no=Module.cwrap('no','null',['string']);
-	document.getElementById("ut").value=decodeURI(location.search).substring(1);
+	document.getElementById("ut").value=decodeURI(location.hash).substring(1);
 	document.getElementById("ut").style="";
 	document.getElementById("on").style="";
 	document.getElementById("ra").innerHTML="";
-	ho();
+	SDL2.audioContext.resume();
 }
-function on()
-{
-	if(gon)
-		ho();
-}
+
 </script>
 <script src="2.js"></script><p>
-<button onclick=on() id="on" style="display:none;">?</button>
+<button onclick=ho() id="on" style="display:none;">?</button>
 </body>
 </html>

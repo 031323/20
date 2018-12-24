@@ -602,17 +602,19 @@ int main(int args,char *argv[])
 	}
 }
 #else
-
-
+short tort[22050*60];
+long mong;
 SDL_AudioDeviceID dev;
 void to(short *sil,int il)
 {
 	//EM_ASM({alert('mong:' + $0 + ' il:'+$1);},mong,il);
-	SDL_QueueAudio(dev,sil,il*2);
+	//SDL_QueueAudio(dev,sil,il*2);
+	memcpy(&tort[mong],sil,il*2);
+	mong+=il;
 }
 extern "C" {
 void no(char* lar)
-{mo(lar);}
+{mong=0;mo(lar);SDL_QueueAudio(dev,tort,mong*2);}
 int main(int args,char *argv[])
 {
 	lo=&to;
