@@ -15,6 +15,7 @@
 var no,so;
 var gon=false;
 var hool=false;
+var fool=true;
 var jint;
 var ting=[];
 function wo()
@@ -62,7 +63,7 @@ function ho()
 			sing="";
 		}
 	}
-	if(jint==-1)jint=0;
+	if(jint==-1)jint=0;if(fool){ fool=false; jint=0;}
 	document.getElementById("kon").style="";
 	window.requestAnimationFrame(bho);
 }
