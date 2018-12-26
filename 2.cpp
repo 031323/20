@@ -539,7 +539,7 @@ void vo(const char *par,int ant,int &cant)
 					if(trin[santu[1]].find("॑")!=string::npos)fint=2;
 				}
 				if(fint==-1&&swint==2){fint=2;}
-				if(fint==-1){fint=1;}
+				if(fint==-1){fint=2;}
 			}
 			crim[i]="[["+crim[i]+"]]";
 			if(bol)cout<<"P: "<<fint<<" ";
