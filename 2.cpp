@@ -316,7 +316,7 @@ void vo(const char *par,int ant,int &cant)
 					if(nool)crim[crint]+="~";
 				}
 			}
-			else if(trin[i]=="ं")crim[crint]+="M";
+			else if(trin[i]=="ं")crim[crint]+="m";
 			else if(trin[i]=="ः")crim[crint]+="HH";
 			else if(trin[i]=="य")crim[crint]+="j";
 			else if(trin[i]=="र")crim[crint]+="R";
